@@ -1,0 +1,43 @@
+# macOS system files
+.DS_Store
+
+# Python cache and environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+env/
+venv/
+
+# VSCode/JetBrains settings
+.vscode/
+.idea/
+
+# Node modules (if using npm or Node.js in the future)
+node_modules/
+
+# Logs
+*.log
+
+# Compiled files
+*.out
+*.class
+*.so
+*.dll
+*.exe
+*.o
+
+# C++ object files and binaries
+*.obj
+*.exe
+*.out
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Misc
+*.bak
+*.tmp
+
