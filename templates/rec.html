@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>audio recorder</title>
+  <meta charset="UTF-8">
+  <meta name="Keywords" content="js,audio recorder">
+  <meta name="Description" content="Recording audio with HTML 5 and JavaScript">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="recorder.css">
+
+<body>
+  <nav class="navbar">
+    <div class="navbar__container">
+      <a href="/" id="navbar__logo"><i class="fas fa-gem"></i>BLINK</a>
+      <div class="navbar__toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="navbar__menu">
+        <li class="navbar__item" onclick="window.location.href = 'index.html';">
+          <a href="open.html" class="navbar__links">
+            Home
+          </a>
+        </li>
+        <li onclick="window.location.href = 'recorder.html'" class="navbar__item">
+          <a class="navbar__links">
+            Record
+          </a>
+        </li>
+        <li onclick="window.location.href = 'voiceTotext.html'" class="navbar__item">
+          <a class="navbar__links">
+            Transcribe
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="http://127.0.0.1:8000" class="navbar__links">
+            Summarizer
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="about.html" class="navbar__links">
+            About
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="http://127.0.0.1:5000" class="navbar__links">
+            Flashcards
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="holder">
+    <div data-role="controls">
+      <button>Record</button>
+    </div>
+    <button class="bus" onclick="on()" style="display:block; margin:0 auto; padding: 12px 24px; font-size: 18px; font-weight: bold; color: #fff; background-color: #007bff; border: none; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); transition: background-color 0.2s ease-in-out;">
+  Turn on overlay effect
+</button>
+
+    <div id="overlay" onclick="off()" style="position:fixed; display: none; width: 100%;height: 100%;top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(0,0,0,0.5);z-index: 2; cursor: pointer;">
+      <div id="text" style="position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);">Overlay Text</div>
+    </div>
+    <div data-role="recordings">
+    </div>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://markjivko.com/dist/recorder.js"></script>
+<script>
+  jQuery(document).ready(function () {
+    var $ = jQuery;
+    var myRecorder = {
+      objects: {
+        context: null,
+        stream: null,
+        recorder: null
+      },
+      init: function () {
+        if (null === myRecorder.objects.context) {
+          myRecorder.objects.context = new (
+            window.AudioContext || window.webkitAudioContext
+          );
+        }
+      },
+      start: function () {
+        var options = {audio: true, video: false};
+        navigator.mediaDevices.getUserMedia(options).then(function (stream) {
+          myRecorder.objects.stream = stream;
+          myRecorder.objects.recorder = new Recorder(
+            myRecorder.objects.context.createMediaStreamSource(stream),
+            {numChannels: 1}
+          );
+          myRecorder.objects.recorder.record();
+        }).catch(function (err) {});
+      },
+      stop: function (listObject) {
+        if (null !== myRecorder.objects.stream) {
+          myRecorder.objects.stream.getAudioTracks()[0].stop();
+        }
+        if (null !== myRecorder.objects.recorder) {
+          myRecorder.objects.recorder.stop();
+
+          // Validate object
+          if (null !== listObject
+            && 'object' === typeof listObject
+            && listObject.length > 0) {
+            // Export the WAV file
+            myRecorder.objects.recorder.exportWAV(function (blob) {
+              var url = (window.URL || window.webkitURL)
+                .createObjectURL(blob);
+
+              // Prepare the playback
+              var audioObject = $('<audio controls></audio>')
+                .attr('src', url);
+
+              // Prepare the download link
+              var downloadObject = $('<a>&#9660;</a>')
+                .attr('href', url)
+                .attr('download', new Date().toUTCString() + '.wav');
+
+              // Wrap everything in a row
+              var holderObject = $('<div class="row"></div>')
+                .append(audioObject)
+                .append(downloadObject);
+
+              // Append to the list
+              listObject.append(holderObject);
+            });
+          }
+        }
+      }
+    };
+
+    // Prepare the recordings list
+    var listObject = $('[data-role="recordings"]');
+
+    // Prepare the record button
+    $('[data-role="controls"] > button').click(function () {
+      // Initialize the recorder
+      myRecorder.init();
+
+      // Get the button state 
+      var buttonState = !!$(this).attr('data-recording');
+
+      // Toggle
+      if (!buttonState) {
+        $(this).attr('data-recording', 'true');
+        myRecorder.start();
+      } else {
+        $(this).attr('data-recording', '');
+        myRecorder.stop(listObject);
+      }
+    });
+  });
+  function on() {
+    document.getElementById("overlay").style.display = "block";
+  }
+
+  function off() {
+    document.getElementById("overlay").style.display = "none";
+  }
+</script>
+</head>
+
+
+
+</html>

@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <title>Summary Generator</title>
+  </head>
+  <body>
+    <h1>Summary Generator</h1>
+    <form method="post">
+      <input type="text" name="topic" placeholder="Enter topic here" value="{{ topic }}">
+      <input type="submit" value="Generate Summary">
+    </form>
+    {% if wikipedia_summary %}
+      <h2>Wikipedia Summary</h2>
+      <p>{{ wikipedia_summary }}</p>
+    {% endif %}
+    {% if openai_summary %}
+      <h2>OpenAI Summary</h2>
+      <p>{{ openai_summary }}</p>
+    {% endif %}
+  </body>
+</html>
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Information Summary</title>
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+
+      form {
+        margin-bottom: 40px;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        font-size: 18px;
+        width: 60%;
+        border-radius: 5px;
+        border: 1px solid gray;
+      }
+
+      input[type="submit"] {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: lightblue;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .summary {
+        font-size: 18px;
+        margin-top: 40px;
+      }
+
+      .summary h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .summary p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Get Information Summary</h1>
+      <form action="/" method="post">
+        <input type="text" name="topic" placeholder="Enter a topic" value="{{ topic }}">
+        <input type="submit" value="Get Summary">
+      </form>
+      {% if summary %}
+        <div class="summary">
+          {% for title, text in summary.items() %}
+            <h2>{{ title }}</h2>
+            <p>{{ text }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </body>
+</html>  -->

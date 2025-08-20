@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Chat Website</title>
+  </head>
+  <body>
+    <h1>Chat Website</h1>
+    <form action="chat.php" method="post">
+      <label for="username">Username: </label>
+      <input type="text" name="username" />
+      <input type="submit" value="Enter Chat Room" />
+    </form>
+  </body>
+</html>
+
+<?php
+if(isset($_POST['username'])) {
+  $username = $_POST['username'];
+  echo "<h2>Welcome to the Chat Room, $username!</h2>";
+  echo "<form action='chat.php' method='post'>";
+  echo "<textarea name='message' rows='5' cols='50'></textarea><br />";
+  echo "<input type='submit' value='Send Message' />";
+  echo "</form>";
+  echo "<h3>Conversation:</h3>";
+}
+
+if(isset($_POST['message'])) {
+  $message = $_POST['message'];
+  $username = $_POST['username'];
+  echo "<p><strong>$username</strong>: $message</p>";
+}
+?>

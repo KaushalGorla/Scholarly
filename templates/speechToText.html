@@ -1,0 +1,444 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech To Text</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+    integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style type="text/css">
+    .voice_to_text {
+      width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 50px;
+    }
+
+    #convert_text {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      resize: none;
+      padding: 10px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    /*body {
+                position: absolute;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex; 
+                -webkit-box-pack: center;
+                -webkit-justify-content: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                background-color: whitesmoke;
+            } */
+    .holder {
+      background-color: #4c474c;
+      background-image: (linear, left bottom, left top, from(#4c474c), to(#141414));
+      background-image: -o-linear-gradient(bottom, #4c474c 0%, #141414 100%);
+      background-image: linear-gradient(0deg, #4c474c 0%, #141414 100%);
+      border-radius: 50px;
+    }
+
+    [data-role="controls"]>button {
+      margin: 50px auto;
+      outline: none;
+      display: block;
+      border: none;
+      background-color: #D9AFD9;
+      background-image: (linear, left bottom, left top, from(#ff0844), to(#A890FE));
+      background-image: -o-linear-gradient(bottom, #ff0844 0%, #A890FE 100%);
+      background-image: linear-gradient(0deg, #ff0844 0%, #A890FE 100%);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      text-indent: -1000em;
+      cursor: pointer;
+      -webkit-box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
+        0px 0px 0px 30px #fff, 0px 0px 0px 35px #333;
+      box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
+        0px 0px 0px 30px #fff, 0px 0px 0px 35px #333;
+    }
+
+    [data-role="controls"]>button:hover {
+      background-color: #ee7bee;
+      background-image: (linear, left bottom, left top, from(#A890FE), to(#ff0844));
+      background-image: -o-linear-gradient(bottom, #A890FE 0%, #ff0844 100%);
+      background-image: linear-gradient(0deg, #A890FE 0%, #ff0844 100%);
+    }
+
+    [data-role="controls"]>button[data-recording="true"] {
+      background-color: #ff2038;
+      background-image: (linear, left bottom, left top, from(#ff2038), to(#b30003));
+      background-image: -o-linear-gradient(bottom, #ff2038 0%, #b30003 100%);
+      background-image: linear-gradient(0deg, #ff2038 0%, #b30003 100%);
+    }
+
+    [data-role="recordings"]>.row {
+      width: auto;
+      height: auto;
+      padding: 20px;
+    }
+
+    [data-role="recordings"]>.row>audio {
+      outline: none;
+    }
+
+    [data-role="recordings"]>.row>a {
+      display: inline-block;
+      text-align: center;
+      font-size: 20px;
+      line-height: 50px;
+      vertical-align: middle;
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+      color: #fff;
+      font-weight: bold;
+      text-decoration: underline;
+      background-color: #0093E9;
+      background-image: (linear, left bottom, left top, from(#0093E9), to(#80D0C7));
+      background-image: -o-linear-gradient(bottom, #0093E9 0%, #80D0C7 100%);
+      background-image: linear-gradient(0deg, #0093E9 0%, #80D0C7 100%);
+      float: right;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    [data-role="recordings"]>.row>a:hover {
+      text-decoration: none;
+    }
+
+    [data-role="recordings"]>.row>a:active {
+      background-image: (linear, left top, left bottom, from(#0093E9), to(#80D0C7));
+      background-image: -o-linear-gradient(top, #0093E9 0%, #80D0C7 100%);
+      background-image: linear-gradient(180deg, #0093E9 0%, #80D0C7 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Kumbh Sans', sans-serif;
+    }
+
+    .navbar {
+      background: linear-gradient(to top right, #ff0844 0%, #A890FE 100%);
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .navbar__container {
+      display: flex;
+      justify-content: space-between;
+      height: 80px;
+      z-index: 1;
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 50px;
+    }
+
+    #navbar__logo {
+      background-color: #ff8177;
+      background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+      background-size: 100%;
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      -webkit-fill-color: transparent;
+      -moz-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 2rem;
+    }
+
+    .fa-gem {
+      margin-right: 0.5rem;
+    }
+
+    .navbar__menu {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      text-align: center;
+    }
+
+    .navbar__item {
+      height: 80px;
+    }
+
+    .navbar__links {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 0 1rem;
+      height: 100%;
+    }
+
+    .navbar__btn {
+      display: flex;
+      content: center;
+      align-items: center;
+      padding: 0 1rem;
+      width: 100%;
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      padding: 10px 20px;
+      height: 100%;
+      width: 100%;
+      border: none;
+      outline: none;
+      border-radius: 4px;
+      background: #f77062;
+      color: #fff;
+    }
+
+    .button:hover {
+      background: #4837ff;
+      transition: all 0.3s ease;
+    }
+
+    .navbar__links:hover {
+      color: #f77062;
+      transition: all 0.3s ease;
+    }
+
+    @media screen and (max-width: 960px) {
+      .navbar__container {
+        display: flex;
+        justify-content: space-between;
+        height: 80px;
+        z-index: 1;
+        width: 100%;
+        max-width: 1300px;
+        padding: 0;
+      }
+
+      .navbar__menu {
+        display: grid;
+        grid-template-columns: auto;
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: -1000px;
+        opacity: 0;
+        transition: all 0.5s ease;
+        height: 50vh;
+        z-index: -1;
+        background: #131313;
+      }
+
+      .navbar__menu.active {
+        background: #131313;
+        top: 100%;
+        opacity: 1;
+        transition: all 0.5s ease;
+        z-index: 99;
+        height: 50vh;
+        font-size: 1.6rem;
+      }
+
+      #navbar__logo {
+        padding-left: 25px;
+      }
+
+      .navbar__toggle .bar {
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background: #fff;
+      }
+
+      .navbar__item {
+        width: 100%;
+      }
+
+      .navbar__links {
+        text-align: center;
+        padding: 2rem;
+        width: 100%;
+        display: table;
+      }
+
+      #mobile-menu {
+        position: absolute;
+        top: 20%;
+        right: 5%;
+        transform: translate(5%, 20%);
+      }
+
+      .navbar__btn {
+        padding-bottom: 2rem;
+      }
+
+      .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 110%;
+        height: 80px;
+        margin: 0;
+      }
+
+      .navbar__toggle .bar {
+        display: block;
+        cursor: pointer;
+      }
+
+      #mobile-menu.is-active .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      #mobile-menu.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+
+      #mobile-menu.is-active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+    }
+
+    btn btn-success {
+      color: green;
+    }
+  </style>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar__container">
+      <a href="/" id="navbar__logo"><i class="fas fa-gem"></i> QUIZ-IT</a>
+      <div class="navbar__toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="navbar__menu">
+        <li class="navbar__item" onclick="window.location.href = 'index.html';">
+          <a href="open.html" class="navbar__links">
+            Home
+          </a>
+        </li>
+        <li onclick="window.location.href = 'recorder.html'" class="navbar__item">
+          <a class="navbar__links">
+            Record
+          </a>
+        </li>
+        <li onclick="window.location.href = 'voiceTotext.html'" class="navbar__item">
+          <a class="navbar__links">
+            Transcribe
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="http://127.0.0.1:8000" class="navbar__links">
+            Summarize
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="about.html" class="navbar__links">
+            About
+          </a>
+        </li>
+        <li class="navbar__item">
+          <a href="http://127.0.0.1:5000" class="navbar__links">
+            Flashcards
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <h2 class="mt-4 text-light">Transcript</h2>
+  <div class="p-3" style="border: 1px solid gray; height: 300px; border-radius: 8px;">
+    <span contenteditable="true" id="transcript" class="text-light"></span>
+  </div>
+  <div class="mt-4">
+    <button class="btn btn-success" id="start">Start</button>
+    <button class="btn btn-danger" id="stop">Stop</button>
+    <p id="status" class="lead mt-3 text-light" style="display: none">Listenting ...</p>
+  </div>
+</body>
+<script>
+  // Initialize SpeechRecognition object
+  const recognition = new webkitSpeechRecognition();
+
+  // Set recognition properties
+  recognition.interimResults = true;
+
+  // Get elements by their ID
+  const startBtn = document.getElementById("start");
+  const stopBtn = document.getElementById("stop");
+  const transcript = document.getElementById("transcript");
+  const status = document.getElementById("status");
+
+  // Add event listeners to buttons
+  startBtn.addEventListener("click", startRecognition);
+  stopBtn.addEventListener("click", stopRecognition);
+
+  // Start recognition function
+  function startRecognition() {
+    recognition.start();
+    status.style.display = "block";
+  }
+
+  // Stop recognition function
+  function stopRecognition() {
+    recognition.stop();
+    status.style.display = "none";
+  }
+
+  // Add event listener for when recognition results are returned
+  recognition.addEventListener("result", (event) => {
+  let transcriptText = transcript.innerHTML;
+  for (let i = event.resultIndex; i < event.results.length; i++) {
+    if (event.results[i].isFinal) {
+      transcriptText += event.results[i][0].transcript + ". ";
+    }
+  }
+  transcript.innerHTML = transcriptText;
+});
+
+  // Add event listener for when recognition ends
+  recognition.addEventListener("end", () => {
+    if (transcript.innerHTML.trim() !== "") {
+      transcript.innerHTML += " ";
+    }
+    if (!recognition.continuous) {
+      recognition.start();
+    }
+  });
+
+
+</script>
+
+</html>
